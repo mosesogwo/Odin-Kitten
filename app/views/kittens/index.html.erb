@@ -1,0 +1,6 @@
+<h4>All kittens</h4>
+<ol>
+  <% @kittens.each do |kitten| %>
+    <li><%= kitten.name %> <%= link_to "Destroy this kitten", kitten_path(kitten), method: :delete %></li>
+  <% end %>
+</ol>

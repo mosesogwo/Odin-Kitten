@@ -2,10 +2,16 @@ class KittensController < ApplicationController
 
   def index
     @kittens = Kitten.all
+    respond_to do |format|
+      format.json { render json: @kittens}
+    end
   end
 
   def show
     @kitten = Kitten.find(params[:id])
+    respond_to do |format|
+      format.json { render json: @kitten}
+    end
   end
 
   def new
@@ -16,7 +22,7 @@ class KittensController < ApplicationController
     @kitten = Kitten.new(kitten_params)
     if @kitten.save
       flash[:success] = 'Kitten created'
-      redirect_to 'kittens_path'
+      redirect_to kittens_path
     else
       flash.now[:danger] = 'Kitten creation failed!'
       render 'new'
@@ -44,4 +50,9 @@ class KittensController < ApplicationController
     flash[:success] = 'Kitten destroyed!'
     redirect_to kittens_path
   end
+
+  private
+    def kitten_params
+      params.require(:kitten).permit(:name, :age, :cuteness, :softness)
+    end 
 end
